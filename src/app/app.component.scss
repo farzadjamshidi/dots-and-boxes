@@ -1,0 +1,49 @@
+.selected-palyer {
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.vertical-line {
+  width: 4px;
+  height: 40px;
+}
+.horizontal-line {
+  width: 40px;
+  height: 4px;
+}
+
+.each-lines-row {
+  display: flex;
+  .each-line {
+    position: relative;
+    .square {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      top: 5px;
+      left: 9px;
+    }
+    .left-dot {
+      cursor: pointer;
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: yellowgreen;
+      top: -2px;
+      left: -7px;
+      z-index: 1;
+    }
+    .right-dot {
+      cursor: pointer;
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: yellowgreen;
+      top: -2px;
+      right: -7px;
+      z-index: 1;
+    }
+  }
+}
