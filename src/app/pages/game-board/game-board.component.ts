@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DataStoreHelper } from '../../helpers/data-store/data-store.helper';
 import { Dot, DrawedLine, DrawedSquare, Line, Player, Square, Team } from '../../models';
 
 @Component({
@@ -17,13 +18,19 @@ export class GameBoardComponent
   displayLines: Line[][] = [];
   selectedPlayer!: Player;
 
-  x = 7;
-  y = 5;
   lineStyles: any = {};
   squareStyles: any = {};
   player1!: Player;
   player2!: Player;
   score: any;
+  numberOfColumns!: number;
+  numberOfRows!: number;
+
+  constructor(
+    private dataStoreHelper: DataStoreHelper
+  )
+  {
+  }
 
   onClickDot(dot: Dot): void
   {
@@ -112,10 +119,9 @@ export class GameBoardComponent
 
   ngOnInit(): void
   {
-    // const x = 4
-    // const y = 3
-    const x = 7;
-    const y = 5;
+
+    this.numberOfColumns = this.dataStoreHelper.getNumberOfColumns();
+    this.numberOfRows = this.dataStoreHelper.getNumberOfRows();
 
     const player1 = new Player();
     player1.id = this.idGenerator();
@@ -144,11 +150,11 @@ export class GameBoardComponent
 
     const allSquares: Square[] = [];
 
-    for (let i = 1; i <= y; i++)
+    for (let i = 1; i <= this.numberOfRows; i++)
     {
-      for (let j = 1; j <= x; j++)
+      for (let j = 1; j <= this.numberOfColumns; j++)
       {
-        const order = (i - 1) * x + j;
+        const order = (i - 1) * this.numberOfColumns + j;
 
         let dot = allDots.find(dot => dot.order === order);
 
@@ -166,12 +172,12 @@ export class GameBoardComponent
           dot.top = null;
         }
 
-        if (i === y)
+        if (i === this.numberOfRows)
         {
           dot.bottom = null;
         } else if (dot.bottom === undefined)
         {
-          const bottomDotOrder = dot.order + x;
+          const bottomDotOrder = dot.order + this.numberOfColumns;
 
           let bottomDot = allDots.find(dot => dot.order === bottomDotOrder);
 
@@ -191,7 +197,7 @@ export class GameBoardComponent
 
           allLines.push({
             id: this.idGenerator(),
-            order: i * (x - 1) + Math.min(dot.order, bottomDot.order),
+            order: i * (this.numberOfColumns - 1) + Math.min(dot.order, bottomDot.order),
             dot1: dot,
             dot2: bottomDot,
             horizontal: false,
@@ -205,7 +211,7 @@ export class GameBoardComponent
           dot.left = null;
         }
 
-        if (j === x)
+        if (j === this.numberOfColumns)
         {
           dot.right = null;
         } else if (dot.right === undefined)
@@ -230,7 +236,7 @@ export class GameBoardComponent
 
           allLines.push({
             id: this.idGenerator(),
-            order: (i - 1) * (x - 1) + Math.min(dot.order, rightDot.order),
+            order: (i - 1) * (this.numberOfColumns - 1) + Math.min(dot.order, rightDot.order),
             dot1: dot,
             dot2: rightDot,
             horizontal: true,
@@ -260,24 +266,24 @@ export class GameBoardComponent
     let start = 0;
     let end = 0;
 
-    for (let row = 1; row <= 2 * y - 1; row++)
+    for (let row = 1; row <= 2 * this.numberOfRows - 1; row++)
     {
       start = end;
-      end = row % 2 === 0 ? start + x : start + x - 1;
+      end = row % 2 === 0 ? start + this.numberOfColumns : start + this.numberOfColumns - 1;
 
       this.displayLines.push(allLines.slice(start, end));
     }
 
-    for (let i = 1; i <= y - 1; i++)
+    for (let i = 1; i <= this.numberOfRows - 1; i++)
     {
-      for (let j = 1; j <= x - 1; j++)
+      for (let j = 1; j <= this.numberOfColumns - 1; j++)
       {
-        const dot1Order = (i - 1) * x + j;
-        const dot2Order = (i - 1) * x + j + 1;
-        const dot3Order = (i - 1) * x + j + x;
-        const dot4Order = (i - 1) * x + j + x + 1;
+        const dot1Order = (i - 1) * this.numberOfColumns + j;
+        const dot2Order = (i - 1) * this.numberOfColumns + j + 1;
+        const dot3Order = (i - 1) * this.numberOfColumns + j + this.numberOfColumns;
+        const dot4Order = (i - 1) * this.numberOfColumns + j + this.numberOfColumns + 1;
 
-        const order = (i - 1) * (x - 1) + j;
+        const order = (i - 1) * (this.numberOfColumns - 1) + j;
 
         const dots = [
           allDots.find(dot => dot.order === dot1Order)!,

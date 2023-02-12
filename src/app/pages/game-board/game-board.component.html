@@ -18,9 +18,9 @@
     >
     <div *ngIf="odd && !last"
       class="square"
-      [style.backgroundColor]="squareStyles[line.order - ((rowIndex - 1)/2 * x ) - x + 1]?.backgroundColor">
+      [style.backgroundColor]="squareStyles[line.order - ((rowIndex - 1)/2 * numberOfColumns ) - numberOfColumns + 1]?.backgroundColor">
       <span *ngIf="false">
-        {{line.order - ((rowIndex - 1)/2 * x ) - x + 1}}
+        {{line.order - ((rowIndex - 1)/2 * numberOfColumns ) - numberOfColumns + 1}}
       </span>
     </div>
 
