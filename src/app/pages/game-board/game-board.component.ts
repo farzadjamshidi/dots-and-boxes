@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { Dot, DrawedLine, DrawedSquare, Line, Player, Square, Team } from '../../models';
 
 @Component({
@@ -9,20 +8,13 @@ import { Dot, DrawedLine, DrawedSquare, Line, Player, Square, Team } from '../..
 })
 export class GameBoardComponent
 {
-  allDotsSubject: BehaviorSubject<Dot[]> = new BehaviorSubject<Dot[]>([]);
-
-  allDots$ = this.allDotsSubject.asObservable();
-
   allSquares!: Square[];
   allDrawedSquares: DrawedSquare[] = [];
-
   clickedDot1: Dot | null = null;
   clickedDot2: Dot | null = null;
   allLines!: Line[];
   allDrawedLines: DrawedLine[] = [];
-
   displayLines: Line[][] = [];
-
   selectedPlayer!: Player;
 
   x = 7;
@@ -35,8 +27,6 @@ export class GameBoardComponent
 
   onClickDot(dot: Dot): void
   {
-    console.log(dot);
-
     if (this.clickedDot1 == null)
     {
       this.clickedDot1 = dot;
@@ -73,7 +63,6 @@ export class GameBoardComponent
 
     this.clickedDot1 = null;
     this.clickedDot2 = null;
-    console.log(this.allDrawedLines);
   }
 
   checkAndDrawSquare(drawedLine: DrawedLine): void
@@ -84,10 +73,6 @@ export class GameBoardComponent
 
     squares.forEach(square =>
     {
-      // const findDrawedSquare = this.allDrawedSquares.find(drawedSquare => drawedSquare.order === square.order)
-      // if (findDrawedSquare === undefined) {
-      // }
-
       const other3Lines = square.lines.filter(line => line.order !== drawedLine.order);
 
       if (other3Lines.every(line => this.allDrawedLines.find(drawedLine => drawedLine.order === line.order)))
@@ -179,35 +164,6 @@ export class GameBoardComponent
         if (i === 1)
         {
           dot.top = null;
-        } else if (dot.top === undefined)
-        {
-          const topDotOrder = dot.order - x;
-
-          let topDot = allDots.find(dot => dot.order === topDotOrder);
-
-          if (topDot === undefined)
-          {
-            topDot = new Dot();
-            topDot.order = topDotOrder;
-            topDot.id = this.idGenerator();
-            dot.top = topDot;
-            topDot.bottom = dot;
-            allDots.push(topDot);
-          } else
-          {
-            dot.top = topDot;
-            topDot.bottom = dot;
-          }
-
-          allLines.push({
-            id: this.idGenerator(),
-            order: i * (x - 1) + Math.min(dot.order, topDot.order),
-            dot1: dot,
-            dot2: topDot,
-            horizontal: false,
-            vertical: true,
-            squares: []
-          });
         }
 
         if (i === y)
@@ -247,35 +203,6 @@ export class GameBoardComponent
         if (j === 1)
         {
           dot.left = null;
-        } else if (dot.left === undefined)
-        {
-          const leftDotOrder = dot.order - 1;
-
-          let leftDot = allDots.find(dot => dot.order === leftDotOrder);
-
-          if (leftDot === undefined)
-          {
-            leftDot = new Dot();
-            leftDot.order = leftDotOrder;
-            leftDot.id = this.idGenerator();
-            dot.left = leftDot;
-            leftDot.right = dot;
-            allDots.push(leftDot);
-          } else
-          {
-            dot.left = leftDot;
-            leftDot.right = dot;
-          }
-
-          allLines.push({
-            id: this.idGenerator(),
-            order: (i - 1) * (x - 1) + Math.min(dot.order, leftDot.order),
-            dot1: leftDot,
-            dot2: dot,
-            horizontal: true,
-            vertical: false,
-            squares: []
-          });
         }
 
         if (j === x)
@@ -319,10 +246,8 @@ export class GameBoardComponent
       }
     }
 
-    console.log(allDots.sort((a, b) => a.order - b.order));
-    this.allDotsSubject.next(allDots);
+    allLines.sort((a, b) => a.order - b.order);
 
-    console.log(allLines.sort((a, b) => a.order - b.order));
     this.allLines = allLines;
 
     allLines.forEach(line =>
@@ -406,7 +331,6 @@ export class GameBoardComponent
         allSquares.push(square);
       }
     }
-    console.log(allSquares);
     this.allSquares = allSquares;
   }
 
