@@ -24,12 +24,12 @@
       </span>
     </div>
 
-    <div *ngIf="even && !last"
+    <div *ngIf="even && (!last || numberOfColumns < 4)"
       [style.backgroundColor]="clickedDot1?.order === line.dot1.order || clickedDot2?.order === line.dot1.order ? 'green' : ''"
       class="left-dot"
       (click)="onClickDot(line.dot1)">
     </div>
-    <div *ngIf="even && !first"
+    <div *ngIf="even && (!first || numberOfColumns < 3)"
       class="right-dot"
       [style.backgroundColor]="clickedDot1?.order === line.dot2.order || clickedDot2?.order === line.dot2.order ? 'green' : ''"
       (click)="onClickDot(line.dot2)">
