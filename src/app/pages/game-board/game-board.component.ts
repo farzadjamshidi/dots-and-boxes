@@ -125,13 +125,13 @@ export class GameBoardComponent
 
     const player1 = new Player();
     player1.id = this.idGenerator();
-    player1.name = 'Player 1';
+    player1.name = this.dataStoreHelper.getPlayer1Name();
     player1.color = 'blue';
     player1.team = new Team();
 
     const player2 = new Player();
     player2.id = this.idGenerator();
-    player2.name = 'Player 2';
+    player2.name = this.dataStoreHelper.getPlayer2Name();
     player2.color = 'red';
     player2.team = new Team();
 

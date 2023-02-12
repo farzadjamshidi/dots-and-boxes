@@ -30,6 +30,31 @@ export class DataStoreHelper
     return this.data.numberOfColumns;
   }
 
+  setPlayer1Name(name: string): void
+  {
+    this.data.player1Name = name;
+  }
+
+  getPlayer1Name(): string
+  {
+    return this.data.player1Name;
+  }
+
+  setPlayer2Name(name: string): void
+  {
+    this.data.player2Name = name;
+  }
+
+  getPlayer2Name(): string
+  {
+    return this.data.player2Name;
+  }
+
+  set(data: DataStore): void
+  {
+    this.data = data;
+  }
+
   get(): DataStore
   {
     return this.data;

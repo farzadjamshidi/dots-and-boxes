@@ -1,5 +1,19 @@
 <div class="home-page-form">
   <mat-form-field appearance="outline">
+    <mat-label>Player 1 Name</mat-label>
+    <input matInput type="text" minlength="2" [(ngModel)]="player1Name">
+    <mat-error>
+      Minimum should be 2 characters.
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Player 2 Name</mat-label>
+    <input matInput type="text" minlength="2" [(ngModel)]="player2Name">
+    <mat-error>
+      Minimum should be 2 characters.
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Number Of Columns</mat-label>
     <input matInput type="number" min="2" [(ngModel)]="numberOfColumns">
     <mat-error>
