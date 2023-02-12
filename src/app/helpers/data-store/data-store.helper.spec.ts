@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DataStoreHelper } from './data-store.service';
+import { DataStoreHelper } from './data-store.helper';
 
 describe('DataStoreHelper', () =>
 {
